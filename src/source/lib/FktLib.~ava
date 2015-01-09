@@ -1,0 +1,109 @@
+import javax.swing.*;
+import java.io.*;
+
+/**
+ * Die Klasse enthält Methoden, die keiner speziellen
+ * Klasse zugeordnet werden können. Alle Methoden sind als
+ * Klassenmethoden impementiert. Die Klasse wird als
+ * Funktionsbibliothek benutzt.
+ *
+ * @author  Johannes Benzing
+ * @version 1.0
+ */
+public class FktLib {
+  public final static String CR_LF = (String) System.getProperty("line.separator");
+  public final static String TEXTAREA_LF = "\n";
+  
+  /**
+  * f ist das Fenster, an das das Dialogfenster gebunden ist.
+  * titel enthält den Fenstertitel des Dialogfensters,
+  * nachricht die ausgegeben Nachricht.
+  */
+  public static boolean anfrage(JFrame f, String titel, String nachricht) {
+    Object[] options = { "Ja", "Nein", "Abbrechen"};
+    int n = JOptionPane.showOptionDialog(
+    f,
+    nachricht,
+    titel,
+    JOptionPane.DEFAULT_OPTION, // hier keine Wirkung
+    JOptionPane.QUESTION_MESSAGE,
+    null, //kein eigenes Icon
+    options, //Buttonbeschriftungen
+    options[0]) ; //aktiver Button
+    
+    if (n == 0){
+      return true;
+    }     
+    return false;    
+  }
+  
+  public static String gibSuchBegriff(JFrame controllingFrame){
+    SuchenDialog mySuchenDialog;
+    mySuchenDialog = new SuchenDialog(controllingFrame,
+    "Suchen?", "TODO BUttonbeschriftungen");
+    mySuchenDialog.setVisible(true);
+    // Auf das Schließen
+    // des Dialogs warten...
+    return mySuchenDialog.getsavedStr(); 
+  }       
+  
+  public static String readFileChar(File datei)throws FileNotFoundException, IOException{            
+        int iChar; 
+       char zeichen ; 
+       boolean eof = false; 
+       StringBuffer puffer = new StringBuffer(200); 
+       String erg = "";                   
+    try {      
+         FileReader iDatei = new FileReader(datei); 
+         iChar = iDatei.read(); 
+         eof = (iChar == -1); 
+      while (!eof) { 
+        zeichen = (char) iChar; 
+        puffer.append(zeichen); 
+        
+        iChar = iDatei.read(); 
+        eof = iChar == -1; 
+      }                       
+      erg = puffer.toString(); 
+      iDatei.close(); 
+       
+      } 
+     catch( IOException ex ) {
+       System.out.println("Fehler beim Lesen der Datei " + datei.getName());
+//        throw ex;
+      }   
+      return erg;                  
+   }
+   
+   public static String readFile(File datei) throws FileNotFoundException, IOException{
+      FileReader iDatei ;
+      BufferedReader ibDatei ;
+      String zeile ;
+      boolean eof = false;
+      StringBuffer puffer = new StringBuffer(200);
+      String erg = "";
+
+      try {
+         iDatei = new FileReader(datei);
+         ibDatei = new BufferedReader(iDatei) ;
+         zeile = ibDatei.readLine();
+         eof = zeile == null ;
+
+         while (!eof) {
+            puffer.append(zeile + CR_LF);
+            zeile = ibDatei.readLine();
+            
+            if (zeile == null) System.out.println("EOF erreicht!");
+            eof = zeile == null ;
+         }
+
+         erg = puffer.toString();
+         ibDatei.close();
+         iDatei.close(); 
+      }
+      catch(IOException ioe) {
+         System.out.println("Fehler beim Lesen der Datei " + datei.getName());
+      }    
+      return erg;
+   }
+}

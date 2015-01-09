@@ -1,0 +1,3 @@
+In diesem Verzeichnis stehten alle Ressource-Dateien. Dazu zählen
+die Sprachdateien für die Lokalisierung des Editors, aber
+auch alle Bilddateien und Ikons,  falls sie benutzt werden.

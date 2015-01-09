@@ -1,0 +1,114 @@
+package source.MVC.view;
+
+import source.EditorInterface.MenueLeisteInterface;
+import source.MVC.controller.MenueListener;
+import source.EditorInterface.FrameInterface;
+
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+
+/**
+   Leiste am oberen Rand des Fensters mit den Menueinträgen.
+   @author Johannes Benzing
+*/
+public class MenueLeiste extends JMenuBar implements MenueLeisteInterface {
+   final int CTRL_COMMAND_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+   
+   public final static String NEW = "Neu";
+   public final static String OPEN = "Oeffnen";
+   public final static String SAVE = "Speichern";
+   public final static String SAVE_AS = "speichernUnter";
+   public final static String EXIT = "Beenden";
+   public final static String SEARCH = "Suchen";
+   public final static String CONT_SEARCH = "Weitersuchen";
+   public final static String SUBSTITUTE = "Ersetzen";
+   
+   private JMenu menueDatei;
+   private JMenu menueBearbeiten;
+   private JMenuItem dateiNeu;
+   private JMenuItem dateiOeffnen;
+   private JMenuItem dateiSpeichern;
+   private JMenuItem dateiSpeichernUnter;
+   private JMenuItem dateiEnde;
+   private JMenuItem bearbeitenSuchen;
+   private JMenuItem bearbeitenWeiterSuchen;
+   private JMenuItem bearbeitenErsetzen;
+   private MenueListener mListener;
+   
+   public MenueLeiste(FrameInterface fInt){
+      mListener = new MenueListener(fInt);
+      
+      menueDatei = new JMenu("Datei");
+      menueDatei.setMnemonic(KeyEvent.VK_D);
+      dateiNeu = new JMenuItem(NEW);
+      dateiNeu.setMnemonic(KeyEvent.VK_N);
+      dateiNeu.setActionCommand(NEW);
+      dateiNeu.addActionListener(mListener);
+      menueDatei.add(dateiNeu);
+      dateiOeffnen = new JMenuItem(OPEN);
+      dateiOeffnen.setMnemonic(KeyEvent.VK_F);
+      KeyStroke ks0 = KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_COMMAND_MASK);
+      dateiOeffnen.setAccelerator(ks0);
+      dateiOeffnen.setActionCommand(OPEN);
+      dateiOeffnen.addActionListener(mListener);
+      menueDatei.add(dateiOeffnen);
+      dateiSpeichern = new JMenuItem(SAVE);
+      dateiSpeichern.setMnemonic(KeyEvent.VK_S);
+      KeyStroke ks1 = KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_COMMAND_MASK);
+      dateiSpeichern.setAccelerator(ks1);
+      dateiSpeichern.setActionCommand(SAVE);
+      dateiSpeichern.addActionListener(mListener);
+      menueDatei.add(dateiSpeichern);      
+      dateiSpeichernUnter = new JMenuItem(SAVE_AS);
+      dateiSpeichernUnter.setMnemonic(KeyEvent.VK_U);
+      dateiSpeichernUnter.setActionCommand(SAVE_AS);
+      dateiSpeichernUnter.addActionListener(mListener);
+      menueDatei.add(dateiSpeichernUnter);                  
+      menueDatei.addSeparator();
+      dateiEnde = new JMenuItem(EXIT);
+      dateiEnde.setMnemonic(KeyEvent.VK_B);
+      dateiEnde.setActionCommand(EXIT);
+      dateiEnde.addActionListener(mListener);
+      menueDatei.add(dateiEnde);   
+      
+      menueBearbeiten = new JMenu("Bearbeiten");
+      menueBearbeiten.setMnemonic(KeyEvent.VK_B);
+      bearbeitenSuchen = new JMenuItem(SEARCH);
+      bearbeitenSuchen.setMnemonic(KeyEvent.VK_S);
+      KeyStroke ks2 = KeyStroke.getKeyStroke(KeyEvent.VK_F, CTRL_COMMAND_MASK);
+      bearbeitenSuchen.setAccelerator(ks2);
+      bearbeitenSuchen.setActionCommand(SEARCH);
+      bearbeitenSuchen.addActionListener(mListener);
+      menueBearbeiten.add(bearbeitenSuchen);   
+      bearbeitenWeiterSuchen = new JMenuItem(CONT_SEARCH);
+      bearbeitenWeiterSuchen.setMnemonic(KeyEvent.VK_W);
+      KeyStroke ks3 = KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0);
+      bearbeitenWeiterSuchen.setAccelerator(ks3);
+      bearbeitenWeiterSuchen.setActionCommand(CONT_SEARCH);
+      bearbeitenWeiterSuchen.addActionListener(mListener);
+      menueBearbeiten.add(bearbeitenWeiterSuchen);         
+      bearbeitenErsetzen = new JMenuItem(SUBSTITUTE);
+      bearbeitenErsetzen.setMnemonic(KeyEvent.VK_W);
+      KeyStroke ks4 = KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_COMMAND_MASK);
+      bearbeitenErsetzen.setAccelerator(ks4);
+      bearbeitenErsetzen.setActionCommand(SUBSTITUTE);
+      bearbeitenErsetzen.addActionListener(mListener);
+      menueBearbeiten.add(bearbeitenErsetzen);         
+      
+      add(menueDatei);
+      add(menueBearbeiten);
+      
+      
+      deAktiveMenuefunktionen();
+   }
+   public void deAktiveMenuefunktionen(){
+         dateiNeu.setEnabled(true);
+         dateiOeffnen.setEnabled(true);
+         dateiSpeichern.setEnabled(false);
+         dateiSpeichernUnter.setEnabled(true);
+         bearbeitenSuchen.setEnabled(true);
+         bearbeitenWeiterSuchen.setEnabled(false);
+         bearbeitenErsetzen.setEnabled(false);
+   }
+}

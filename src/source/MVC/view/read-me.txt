@@ -1,0 +1,3 @@
+In diesem Verzeichnis stehen alle View-Klassen.
+Dazu zählen zur Zeit das Hauptfenster, das Editor-Feld, 
+die Nachrichtenzeile und die Menüleiste.

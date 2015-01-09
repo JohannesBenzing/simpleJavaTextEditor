@@ -1,0 +1,4 @@
+In diesem Verzeichnis steht die Bibliotheksklasse EditorLib
+(falls eine Bibliothek eingerichtet wird) und alle sonstigen übergreifenden Klassen, 
+die nicht eindeutig einem Verzeichnis zugeordnet werden können.
+Zur Zeit ist dieses Verzeichnis leer.

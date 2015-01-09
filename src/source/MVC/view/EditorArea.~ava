@@ -1,0 +1,87 @@
+//ä
+package source.MVC.view;
+
+import source.EditorInterface.EditorAreaInterface;
+import source.EditorInterface.FrameInterface;
+import source.MVC.model.TextModel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.event.*;
+
+/**
+   Textfeld des Fensters.
+   @author Johannes Benzing
+*/
+public class EditorArea extends JTextArea implements EditorAreaInterface {
+  private boolean textGeaendert = false;
+  private FrameInterface fInt;   
+  private TextModel myTextModel;
+  
+  public EditorArea(FrameInterface fInt) {
+    DocumentListener dlis = new MyDocListener();
+    this.getDocument().addDocumentListener(dlis); 
+    this.fInt = fInt;
+    this.myTextModel = new TextModel();
+  }
+  
+  public void neuDialog(){
+    fInt.setMessage("Menüeintrag NEW gedrückt!");
+  }
+  public void oeffnenDialog(){
+    fInt.setMessage("Menüeintrag OPEN gedrückt!");
+    if(!textGeaendert){
+      try{
+        setText(myTextModel.readText());
+        fInt.getFrame().setTitle(fensterTitel + "-" + model.getFileName());
+        //                       suchText = "";               TODO
+        textGeaendert = false;
+      }
+      catch(EditorException e){
+        fInt.setMessage(e.getMessage());                    
+      }
+    }
+    else{
+      fInt.setMessage("Datei zuerst speichern");
+    }
+  }
+    public void speichernDialog(){
+      fInt.setMessage("Menüeintrag SAVE gedrückt!");
+    }
+    public void speichernUnterDialog(){
+      fInt.setMessage("Menüeintrag SAVE_AS gedrückt!");
+    }
+    public void beendenDialog(){
+      fInt.getFrame().setVisible(false);
+      fInt.getFrame().dispose();
+      System.exit(0);
+    }
+    public void suchenDialog(){
+      fInt.setMessage("Menüeintrag SEARCH gedrückt!");
+    }
+    public void weiterSuchenDialog(){
+      fInt.setMessage("Menüeintrag CONT_SEARCH gedrückt!");
+    }
+    public void ersetzenDialog(){
+      fInt.setMessage("Menüeintrag SUBSTITUTE gedrückt!");
+    }
+    
+    class MyDocListener implements DocumentListener{
+      public void insertUpdate(DocumentEvent e){
+        if ( !textGeaendert ) {
+          System.out.println("Text wurde geaendert!");
+        }
+        textGeaendert = true;   
+        fInt.getFrame().setTitle("Swing Editor - unbekannt.txt*");
+      }
+      public void removeUpdate(DocumentEvent e){
+        if ( !textGeaendert ) {
+          System.out.println("Text wurde geaendert!");
+        }
+        textGeaendert = true;         
+      }
+      public void changedUpdate(DocumentEvent e){   
+      }
+    }
+  }

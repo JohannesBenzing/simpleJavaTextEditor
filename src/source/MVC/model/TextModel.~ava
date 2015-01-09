@@ -1,0 +1,51 @@
+package source.MVC.model;
+
+import source.EditorInterface.TextModelInterface; 
+import source.lib.FktLib;
+import source.MVC.view.EditorException;
+
+import java.io.*;
+
+/**
+ * @author Johannes Benzing
+ * @version WS 2013/2014
+ */
+public class TextModel implements TextModelInterface {
+  private boolean dateiGeladen = false;
+  private File datei = new File("beispiel.txt");
+  private String editorText = "";
+  
+  public TextModel() {
+  }
+  
+  public String readText() throws EditorException{
+    String s = "";
+    try{
+      s = FktLib.readFileChar(datei);
+    }
+    catch(FileNotFoundException e){
+      throw new EditorException("Textdatei nicht gefunden");
+    }
+    catch(IOException e){
+      throw new EditorException("Lesefehler beim Laden der Textdatei");               
+    }
+    dateiGeladen = true;    
+    return s;
+  }
+  
+  public void writeText(String text)throws EditorException{
+    try{
+      FktLib.writeFile(datei, text);
+    }
+    catch(FileNotFoundException e){
+      throw new EditorException("Textdatei konnte nicht gespeichert werden");
+    }
+    catch(IOException e){
+      throw new EditorException("Textdatei konnte nicht gespeichert werden");               
+    }
+  }
+  
+  public String getFileName(){
+    return datei.getName();
+  };
+}

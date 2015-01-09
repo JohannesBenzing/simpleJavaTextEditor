@@ -1,0 +1,2 @@
+In diesem Verzeichnis stehten alle Interfaces (Schnittstellen
+und reine Interfaces für Konstanten).

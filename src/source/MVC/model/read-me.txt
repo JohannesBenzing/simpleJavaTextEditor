@@ -1,0 +1,2 @@
+In diesem Verzeichnis stehen alle Klassen,
+die einem Model zugeordnet werden können.
